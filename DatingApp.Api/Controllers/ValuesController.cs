@@ -6,9 +6,12 @@ using DatingApp.Api.Data;
 using Microsoft.AspNetCore.Mvc;
 using DatingApp.Api.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DatingApp.Api.Controllers
 {
+
+    [Authorize]
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
