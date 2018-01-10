@@ -10,9 +10,10 @@ using System;
 namespace DatingApp.Api.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    partial class DatacontextModelSnapshot : ModelSnapshot
+    [Migration("20180110003833_AddedUSerModel")]
+    partial class AddedUSerModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
