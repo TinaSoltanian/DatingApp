@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DatingApp.Api.Data;
 using DatingApp.Api.Dtos;
 using DatingApp.Api.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -53,13 +54,13 @@ namespace DatingApp.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLoginDto)
         {
-            var userFromRepo = _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
+            var userFromRepo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
 
             if (userFromRepo == null)
                 return Unauthorized();
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes( _config.GetSection("AppSettings:Token").Value);
+            var key = Encoding.ASCII.GetBytes(_config.GetSection("AppSettings:Token").Value);
             var tokenDescription = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -67,9 +68,9 @@ namespace DatingApp.Api.Controllers
                     new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                     new Claim(ClaimTypes.Name, userForLoginDto.Username)
                 }),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                            SecurityAlgorithms.HmacSha512)
+                            SecurityAlgorithms.HmacSha512Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescription);
