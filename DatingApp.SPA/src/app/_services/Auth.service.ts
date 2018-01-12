@@ -10,15 +10,24 @@ export class AuthService {
 constructor(private http: Http) { }
 
 login(model: any){
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
-    return this.http.post(this.baseUrl + 'login', model, options).map((response: Response) => {
+
+    return this.http.post(this.baseUrl + 'login', model, this.getOptions()).map((response: Response) => {
         const user = response.json();
         if (user){
             localStorage.setItem("token", user.tokenString);
             this.userToken = user.tokenString;
         }
     });
+}
+
+register(model: any){
+    return this.http.post(this.baseUrl + "register", model, this.getOptions());
+}
+
+getOptions(){
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
+    return options;
 }
 
 }
