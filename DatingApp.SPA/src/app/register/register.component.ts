@@ -20,7 +20,7 @@ model: any = {};
     this.authService.register(this.model).subscribe(() => {
       console.log("registerd!");
     }, error => {
-      console.log("registration faild");
+      console.log(error);
     });
 
   }
