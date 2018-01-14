@@ -8,6 +8,7 @@ import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/Auth.service';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
+import { AlertifyService } from './_services/alertify.service';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { HomeComponent } from './home/home.component';
     HttpModule,
     FormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService,
+    AlertifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
