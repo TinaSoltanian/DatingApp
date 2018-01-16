@@ -25,6 +25,7 @@ import { MemeberListResolver } from './_resolvers/member-list.resolver';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { MemberEditComponent } from './member-edit/member-edit.component';
 import { MemeberEditResolver } from './_resolvers/member-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { MemeberEditResolver } from './_resolvers/member-edit.resolver';
               UserService,
               MemeberDetailResolver,
               MemeberListResolver,
-              MemeberEditResolver
+              MemeberEditResolver,
+              PreventUnsavedChanges
             ],
   bootstrap: [AppComponent]
 })
