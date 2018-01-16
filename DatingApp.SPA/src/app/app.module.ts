@@ -23,6 +23,8 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
 import { MemeberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemeberListResolver } from './_resolvers/member-list.resolver';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { MemberEditComponent } from './member-edit/member-edit.component';
+import { MemeberEditResolver } from './_resolvers/member-edit.resolver';
 
 
 @NgModule({
@@ -36,7 +38,8 @@ import { NgxGalleryModule } from 'ngx-gallery';
     MessagesComponent,
     MemberCardComponent,
     MemberlistComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberEditComponent
 ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { NgxGalleryModule } from 'ngx-gallery';
               AuthGuard,
               UserService,
               MemeberDetailResolver,
-              MemeberListResolver
+              MemeberListResolver,
+              MemeberEditResolver
             ],
   bootstrap: [AppComponent]
 })
