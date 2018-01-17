@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { Photo } from '../_models/Photo';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../_services/Auth.service';
 import { UserService } from '../_services/user.service';
 import { AlertifyService } from '../_services/alertify.service';
-import { EROFS } from 'constants';
+import * as _ from 'underscore';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-photo-editor',
@@ -17,6 +18,8 @@ export class PhotoEditorComponent implements OnInit {
 uploader: FileUploader;
 public hasBaseDropZoneOver:boolean = false;
 baseUrl = environment.apiUrl;
+currentMain: Photo;
+@Output() getMemberPhotoChanged = new EventEmitter<string>();
 
   constructor(private authService: AuthService,
               private userService: UserService,
@@ -59,7 +62,10 @@ baseUrl = environment.apiUrl;
 
 setMainPhoto(photo: Photo){
   this.userService.setMainPhoto(this.authService.decodedToken.nameid, photo.id).subscribe(()=> {
-    console.log("changes successfully")
+    this.currentMain = _.findWhere(this.photos, {isMain: true});
+    this.currentMain.isMain = false;
+    photo.isMain = true;
+    this.getMemberPhotoChanged.emit(photo.url);
   }, error => {
     this.alertify.error(error);
   })

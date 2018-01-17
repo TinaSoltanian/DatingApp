@@ -70,7 +70,8 @@ namespace DatingApp.Api.Controllers
             if (file.Length > 0){
                 using (var stream = file.OpenReadStream()){
                     var uploadParams = new ImageUploadParams(){
-                        File = new FileDescription(file.Name, stream)
+                        File = new FileDescription(file.Name, stream),
+                        Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
                     };
 
                     uploadResult = _cloudinary.Upload(uploadParams);
@@ -89,9 +90,8 @@ namespace DatingApp.Api.Controllers
 
             user.Photos.Add(photo);
 
-            var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
-
             if (await _repo.SaveAll()){
+                var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id}, photoToReturn);
             }
 

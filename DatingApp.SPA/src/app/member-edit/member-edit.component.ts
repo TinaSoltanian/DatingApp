@@ -38,4 +38,8 @@ user: Users;
 
   }
 
+  updateMainPhoto(photoUrl){
+    this.user.photoUrl = photoUrl;
+  }
+
 }
