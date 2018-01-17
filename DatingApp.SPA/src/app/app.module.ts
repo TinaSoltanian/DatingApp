@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -43,7 +43,7 @@ import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module
     MemberlistComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent    
 ],
   imports: [
     BrowserModule,
@@ -54,7 +54,8 @@ import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module
     AuthModule,
     TabsModule.forRoot(),
     NgxGalleryModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService,
               AlertifyService,
