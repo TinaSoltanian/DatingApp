@@ -128,7 +128,7 @@
     "Country": "Syria",
     "Photos": [
       {
-        "url": "https://randomuser.me/api/portraits/women/44.jpg",
+        "url": "https://randomuser.me/api/portraits/men/44.jpg",
         "isMain": true,
         "description": "Nisi velit commodo dolore ex."
       }
@@ -151,7 +151,7 @@
     "Country": "Saudi Arabia",
     "Photos": [
       {
-        "url": "https://randomuser.me/api/portraits/women/11.jpg",
+        "url": "https://randomuser.me/api/portraits/men/11.jpg",
         "isMain": true,
         "description": "Lorem ad culpa eiusmod magna ullamco ullamco ut."
       }
@@ -173,7 +173,7 @@
     "Country": "Israel",
     "Photos": [
       {
-        "url": "https://randomuser.me/api/portraits/women/57.jpg",
+        "url": "https://randomuser.me/api/portraits/men/57.jpg",
         "isMain": true,
         "description": "Eu aliqua consectetur eu laboris quis fugiat."
       }
@@ -195,7 +195,7 @@
     "Country": "Papua New Guinea",
     "Photos": [
       {
-        "url": "https://randomuser.me/api/portraits/women/12.jpg",
+        "url": "https://randomuser.me/api/portraits/men/12.jpg",
         "isMain": true,
         "description":
           "Quis sint et occaecat excepteur incididunt culpa dolore elit consectetur eiusmod pariatur et."
@@ -219,7 +219,7 @@
     "Country": "Eritrea",
     "Photos": [
       {
-        "url": "https://randomuser.me/api/portraits/women/38.jpg",
+        "url": "https://randomuser.me/api/portraits/men/38.jpg",
         "isMain": true,
         "description":
           "Dolor quis labore aliqua eu esse est irure adipisicing est."

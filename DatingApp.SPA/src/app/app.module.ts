@@ -26,6 +26,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { MemberEditComponent } from './member-edit/member-edit.component';
 import { MemeberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
     MemberCardComponent,
     MemberlistComponent,
     MemberDetailComponent,
-    MemberEditComponent
+    MemberEditComponent,
+    PhotoEditorComponent
 ],
   imports: [
     BrowserModule,
