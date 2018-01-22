@@ -15,17 +15,17 @@
         Password is required
     </span>
     <span class="help-block" *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">
-        Password must be at least
+        Password must be at least 4 characters
     </span>
     <span class="help-block" *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched">
-        Password can not exceed 8 characters
+        Password can not exceed 8 c
     </span>        
   </div>
 
   <div class="form-group" 
   [ngClass]="{'has-error': registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').touched || 
               registerForm.get('confirmPassword').touched && registerForm.hasError('mismatch')}">
-      <input type="password" class="form-control" placeholder="Password" name="password" formControlName="confirmPassword">
+      <input type="password" class="form-control" placeholder="Confirm Password" name="confirmPassword" formControlName="confirmPassword">
       <span class="help-block" *ngIf="registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched">
           Confirm Password is required
       </span>
@@ -41,5 +41,5 @@
   </div>
 </form>
 
-<p>value : {{registerForm.value | json}}</p>
-<p>status : {{registerForm.status | json}}</p>
+<!-- <p>value : {{registerForm.value | json}}</p>
+<p>status : {{registerForm.status | json}}</p> -->

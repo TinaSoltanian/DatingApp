@@ -5,6 +5,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -16,14 +17,21 @@ model: any = {};
 @Output() cancelRegister = new EventEmitter();
 registerForm: FormGroup;
 
-  constructor(private authService: AuthService, private aletify: AlertifyService) { }
+  constructor(private authService: AuthService, 
+    private aletify: AlertifyService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit() {
-    this.registerForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]),
-      confirmPassword: new FormControl('', Validators.required)
-    }, this.passwordMatchValidator);
+    this.createRegistrationForm();
+  }
+
+  createRegistrationForm(){
+    this.registerForm = this.fb.group({
+      username: ['',Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      confirmPassword: ['', Validators.required]
+    },{ validator: this.passwordMatchValidator});
   }
 
   passwordMatchValidator(g: FormGroup){
