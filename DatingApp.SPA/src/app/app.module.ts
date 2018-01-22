@@ -28,6 +28,8 @@ import { MemeberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/bs-datepicker.config';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -55,7 +57,8 @@ import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module
     TabsModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [AuthService,
               AlertifyService,
