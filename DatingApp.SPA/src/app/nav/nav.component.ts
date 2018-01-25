@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/Auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -23,7 +24,8 @@ export class NavComponent implements OnInit {
   login(){
     this.authService.login(this.model).subscribe(data => {
       this.alertify.success("Logged in successully")
-    }, error => {      
+    }, error => {  
+      console.log(error) ;
       this.alertify.error("Failed to log in")
     }, () => {
       this.router.navigate(["/members"])

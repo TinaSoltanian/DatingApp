@@ -30,6 +30,7 @@ import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/bs-datepicker.config';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {TimeAgoPipe} from 'time-ago-pipe'
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     MemberlistComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent    
+    PhotoEditorComponent,
+    TimeAgoPipe
 ],
   imports: [
     BrowserModule,

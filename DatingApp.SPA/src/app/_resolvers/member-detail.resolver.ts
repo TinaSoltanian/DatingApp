@@ -7,6 +7,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs/Rx";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class MemeberDetailResolver implements Resolve<Users> {

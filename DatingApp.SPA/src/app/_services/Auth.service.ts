@@ -35,8 +35,8 @@ login(model: Users){
             localStorage.setItem("user", JSON.stringify(user.user));
             this.decodedToken = this.jwtHelper.decodeToken(user.tokenString);
             this.userToken = user.tokenString;
-            if(this.currentUser.photoUrl != null){
-                this.changeMemberPhoto(this.currentUser.photoUrl);
+            if(user.photoUrl != null){
+                this.changeMemberPhoto(user.photoUrl);
             }else{
                 this.changeMemberPhoto('../../assets/user.jpg');
             }
