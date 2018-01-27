@@ -1,59 +1,85 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { Http, RequestOptions, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { Users } from '../_models/Users';
+import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
+import { Http, RequestOptions, Headers, Response } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import { Users } from "../_models/Users";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
-import { AuthHttp } from 'angular2-jwt';
+import { AuthHttp } from "angular2-jwt";
+import { PaginatedResult } from "../_models/pagination";
 
 @Injectable()
 export class UserService {
-    baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl;
 
-constructor(private authHttp: AuthHttp) { }
+  constructor(private authHttp: AuthHttp) {}
 
-getUsers(): Observable<Users[]>{
-    return this.authHttp.get( this.baseUrl + "users")
-         .map(response => <Users[]>response.json())  
-         .catch(this.handleError);
-}
+  getUsers(page?: number, itemsPerPage?: number) {
+    const paginatedResult: PaginatedResult<Users[]> = new PaginatedResult<
+      Users[]
+    >();
+    let queryString = "?";
 
-getUser(id): Observable<Users>{
-    return this.authHttp.get(this.baseUrl + 'users/' + id)
-    .map(response => <Users>response.json())    
-    .catch(this.handleError);
-}
+    if (page != null && itemsPerPage != null) {
+      queryString += "pageNumber=" + page + "&pageSize=" + itemsPerPage;
+    }
 
-updateUser(id: number, user: Users){
-    return this.authHttp.put(this.baseUrl + 'users/' + id, user).catch(this.handleError);
-}
+    return this.authHttp
+      .get(this.baseUrl + "users" + queryString)
+      .map((response: Response) => {
+        paginatedResult.result = response.json();
 
-setMainPhoto(userId: number, id: number){
-    return this.authHttp.post(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {}).catch(this.handleError);
-}
+        if (response.headers.get("Pagination") != null) {
+          paginatedResult.pagination = JSON.parse(
+            response.headers.get("Pagination")
+          );
+        }
+        return paginatedResult;
+      })
+      .catch(this.handleError);
+  }
 
-deletePhoto(userId: number, id: number){
-    return this.authHttp.delete(this.baseUrl + 'users/' + userId + '/photos/' + id).catch(this.handleError);
-}
+  getUser(id): Observable<Users> {
+    return this.authHttp
+      .get(this.baseUrl + "users/" + id)
+      .map(response => <Users>response.json())
+      .catch(this.handleError);
+  }
 
-private handleError(error: any){
+  updateUser(id: number, user: Users) {
+    return this.authHttp
+      .put(this.baseUrl + "users/" + id, user)
+      .catch(this.handleError);
+  }
+
+  setMainPhoto(userId: number, id: number) {
+    return this.authHttp
+      .post(this.baseUrl + "users/" + userId + "/photos/" + id + "/setMain", {})
+      .catch(this.handleError);
+  }
+
+  deletePhoto(userId: number, id: number) {
+    return this.authHttp
+      .delete(this.baseUrl + "users/" + userId + "/photos/" + id)
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any) {
     const applicationError = error.headers.get("Application-Error");
-    if (applicationError){
-            return Observable.throw(applicationError);
+    if (applicationError) {
+      return Observable.throw(applicationError);
     }
 
     const serverError = error.json();
     let modelStateError = "";
-    if (serverError){
-        for(const key in serverError){
-            if (serverError[key]){
-                modelStateError += serverError[key] + "\n";
-            }
+    if (serverError) {
+      for (const key in serverError) {
+        if (serverError[key]) {
+          modelStateError += serverError[key] + "\n";
         }
+      }
     }
-    return Observable.throw( modelStateError || "Server error" );
-}
-
+    return Observable.throw(modelStateError || "Server error");
+  }
 }

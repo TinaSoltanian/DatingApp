@@ -31,6 +31,7 @@ import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/bs-datepicker.config';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {TimeAgoPipe} from 'time-ago-pipe'
+import { PaginationModule } from 'ngx-bootstrap';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import {TimeAgoPipe} from 'time-ago-pipe'
     NgxGalleryModule,
     FileUploadModule,
     ReactiveFormsModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [AuthService,
               AlertifyService,
