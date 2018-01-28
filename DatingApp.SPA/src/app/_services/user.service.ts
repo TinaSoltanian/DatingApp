@@ -8,6 +8,7 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
 import { AuthHttp } from "angular2-jwt";
 import { PaginatedResult } from "../_models/pagination";
+import { query } from "@angular/core/src/animation/dsl";
 
 @Injectable()
 export class UserService {
@@ -15,14 +16,22 @@ export class UserService {
 
   constructor(private authHttp: AuthHttp) {}
 
-  getUsers(page?: number, itemsPerPage?: number) {
+  getUsers(page?: number, itemsPerPage?: number, userParams? : any) {
     const paginatedResult: PaginatedResult<Users[]> = new PaginatedResult<
       Users[]
     >();
     let queryString = "?";
 
     if (page != null && itemsPerPage != null) {
-      queryString += "pageNumber=" + page + "&pageSize=" + itemsPerPage;
+      queryString += "pageNumber=" + page + "&pageSize=" + itemsPerPage + "&";
+    }
+
+    if (userParams != null){
+      queryString += 
+      'minAge=' + userParams.minAge +
+      '&maxAge=' + userParams.maxAge + 
+      '&gender=' + userParams.gender+
+      '&orderBy=' + userParams.orderBy
     }
 
     return this.authHttp

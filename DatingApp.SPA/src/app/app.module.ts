@@ -32,6 +32,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/bs-datepicker.confi
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {TimeAgoPipe} from 'time-ago-pipe'
 import { PaginationModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap/buttons/buttons.module';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { PaginationModule } from 'ngx-bootstrap';
     FileUploadModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   providers: [AuthService,
               AlertifyService,
