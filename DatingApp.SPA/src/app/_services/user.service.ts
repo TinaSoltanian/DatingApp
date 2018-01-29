@@ -8,7 +8,6 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
 import { AuthHttp } from "angular2-jwt";
 import { PaginatedResult } from "../_models/pagination";
-import { query } from "@angular/core/src/animation/dsl";
 
 @Injectable()
 export class UserService {
@@ -16,7 +15,7 @@ export class UserService {
 
   constructor(private authHttp: AuthHttp) {}
 
-  getUsers(page?: number, itemsPerPage?: number, userParams? : any) {
+  getUsers(page?: number, itemsPerPage?: number, userParams?: any, likesParam?: string) {
     const paginatedResult: PaginatedResult<Users[]> = new PaginatedResult<
       Users[]
     >();
@@ -26,12 +25,23 @@ export class UserService {
       queryString += "pageNumber=" + page + "&pageSize=" + itemsPerPage + "&";
     }
 
-    if (userParams != null){
-      queryString += 
-      'minAge=' + userParams.minAge +
-      '&maxAge=' + userParams.maxAge + 
-      '&gender=' + userParams.gender+
-      '&orderBy=' + userParams.orderBy
+    if(likesParam === "Likers"){
+      queryString += "Likers=true&"
+    }
+
+    if(likesParam === "Likees"){
+      queryString += "Likees=true&"
+    }    
+    if (userParams != null) {
+      queryString +=
+        "minAge=" +
+        userParams.minAge +
+        "&maxAge=" +
+        userParams.maxAge +
+        "&gender=" +
+        userParams.gender +
+        "&orderBy=" +
+        userParams.orderBy;
     }
 
     return this.authHttp
@@ -74,7 +84,16 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  sendLike(id: number, recipientId) {
+    return this.authHttp
+      .post(this.baseUrl + "users/" + id + "/like/" + recipientId, {})
+      .catch(this.handleError);
+  }
+
   private handleError(error: any) {
+    if (error.status === 400){
+      return Observable.throw(error._body);
+    }
     const applicationError = error.headers.get("Application-Error");
     if (applicationError) {
       return Observable.throw(applicationError);

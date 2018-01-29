@@ -33,6 +33,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {TimeAgoPipe} from 'time-ago-pipe'
 import { PaginationModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap/buttons/buttons.module';
+import { ListsResolver } from './_resolvers/lists.resolver';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons/buttons.module';
               MemeberDetailResolver,
               MemeberListResolver,
               MemeberEditResolver,
-              PreventUnsavedChanges
+              PreventUnsavedChanges,
+              ListsResolver
             ],
   bootstrap: [AppComponent]
 })

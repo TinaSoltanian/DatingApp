@@ -31,12 +31,14 @@ login(model: Users){
     return this.http.post(this.baseUrl + 'login', model, this.getOptions()).map((response: Response) => {
         const user = response.json();
         if (user){
+
             localStorage.setItem("token", user.tokenString);
             localStorage.setItem("user", JSON.stringify(user.user));
             this.decodedToken = this.jwtHelper.decodeToken(user.tokenString);
             this.userToken = user.tokenString;
-            if(user.photoUrl != null){
-                this.changeMemberPhoto(user.photoUrl);
+            this.currentUser = user.user;
+            if(this.currentUser.photoUrl != null){
+                this.changeMemberPhoto(this.currentUser.photoUrl);
             }else{
                 this.changeMemberPhoto('../../assets/user.jpg');
             }
