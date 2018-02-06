@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DatingApp.Api.Migrations
 {
-    public partial class MesageEntity : Migration
+    public partial class MessageEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace DatingApp.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CContentontact = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     DateRead = table.Column<DateTime>(nullable: true),
                     IsRead = table.Column<bool>(nullable: false),
                     MessageSent = table.Column<DateTime>(nullable: false),

@@ -15,11 +15,11 @@ namespace DatingApp.Api.Controllers
     [Authorize]
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/users/{userId}/[controller]")]
-    public class MessagesCntroller : Controller
+    public class MessagesController : Controller
     {
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
-        public MessagesCntroller(IDatingRepository repo, IMapper mapper)
+        public MessagesController(IDatingRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;
@@ -56,7 +56,8 @@ namespace DatingApp.Api.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetMessagesForUser(int userId, MessageParams messageParams){
-              if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+
+              if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
                     return Unauthorized();
                 }
 

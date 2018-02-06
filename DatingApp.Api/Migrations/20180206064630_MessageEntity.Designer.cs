@@ -11,8 +11,8 @@ using System;
 namespace DatingApp.Api.Migrations
 {
     [DbContext(typeof(Datacontext))]
-    [Migration("20180130060420_MesageEntity")]
-    partial class MesageEntity
+    [Migration("20180206064630_MessageEntity")]
+    partial class MessageEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace DatingApp.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CContentontact");
+                    b.Property<string>("Content");
 
                     b.Property<DateTime?>("DateRead");
 

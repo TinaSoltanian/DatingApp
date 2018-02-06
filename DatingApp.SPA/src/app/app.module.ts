@@ -34,6 +34,7 @@ import {TimeAgoPipe} from 'time-ago-pipe'
 import { PaginationModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap/buttons/buttons.module';
 import { ListsResolver } from './_resolvers/lists.resolver';
+import { MessagesResolver } from './_resolvers/message.resolver';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { ListsResolver } from './_resolvers/lists.resolver';
               MemeberListResolver,
               MemeberEditResolver,
               PreventUnsavedChanges,
-              ListsResolver
+              ListsResolver,
+              MessagesResolver
             ],
   bootstrap: [AppComponent]
 })
