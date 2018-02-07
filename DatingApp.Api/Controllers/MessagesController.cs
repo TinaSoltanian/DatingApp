@@ -27,7 +27,7 @@ namespace DatingApp.Api.Controllers
 
         [HttpGet("{id}", Name = "GetMessage")]
         public async Task<IActionResult> GetMessage(int userId, int id){
-             if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
                     return Unauthorized();
                 }
 
@@ -42,7 +42,7 @@ namespace DatingApp.Api.Controllers
 
         [HttpGet("thread/{id}")]
         public async Task<IActionResult> GetMessagesThread(int userId, int id){
-           if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+           if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
                     return Unauthorized();
                 }    
             
@@ -74,7 +74,7 @@ namespace DatingApp.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId,
             [FromBody]MessageForCreationDto messageForCreationDto){
-                if (userId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
                     return Unauthorized();
                 }
 

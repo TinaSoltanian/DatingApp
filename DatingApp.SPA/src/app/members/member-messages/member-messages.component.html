@@ -1,3 +1,36 @@
-<p>
-  member-messages works!
-</p>
+<div class="panel panel-primary">
+  <div class="panel-body">
+    <div *ngIf="messages?.length === 0">
+      <p>No message yet.. say hi by using the message box below</p>
+    </div>
+
+    <ul>
+      <li *ngFor="let message of messages">
+        <div *ngIf="message.senderId == userId">
+          <span class="chat-img pull-left">
+            <img src="{{message.senderPhotoUr}}" class="img-circle">
+          </span>
+          <div class="chat-body">
+            <div class="header">
+              <strong class="primary-font">{{message.senderKnownAs}}</strong>
+            </div>
+            <p>
+              {{message.content}}
+            </p>  
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="panel-footer"> 
+    <form action="">
+        <div class="input-group">
+          <input class="form-control input-sm" type="text" placeholder="send a private message">          
+          <span class="input-group-btn">
+            <button class="btn btn-primary btn-sm">Send</button>
+          </span>
+        </div>
+    </form>
+  </div>
+</div>

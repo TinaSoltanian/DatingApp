@@ -3,7 +3,6 @@ import { Message } from '../../_models/message';
 import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { AuthService } from '../../_services/Auth.service';
-import { userInfo } from 'os';
 
 @Component({
   selector: 'app-member-messages',
@@ -26,7 +25,7 @@ messages: Message[];
     .subscribe( message => {
       this.messages = message;  
     }, error => {
-      this.alertify.error(error);;
-    )
+      this.alertify.error(error);
+    });
   }
 }
