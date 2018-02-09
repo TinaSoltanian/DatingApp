@@ -12,7 +12,8 @@ import { AuthService } from '../../_services/Auth.service';
 export class MemberMessagesComponent implements OnInit {
 @Input() userId: number;
 messages: Message[];
-newMessage: Message;
+newMessage: any = {};
+
   constructor(private userService: UserService, 
               private alertify: AlertifyService,
                private authService: AuthService) { }
@@ -31,8 +32,6 @@ newMessage: Message;
   }
 
   sendMessage(){
-    console.log(this.newMessage.recipientId );
-    console.log(this.userId);
     this.newMessage.recipientId = this.userId;
     this.userService.sendMessage(this.authService.decodedToken.nameid, this.newMessage)
     .subscribe( message => {

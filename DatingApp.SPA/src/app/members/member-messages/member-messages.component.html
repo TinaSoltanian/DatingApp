@@ -4,11 +4,11 @@
       <p>No message yet.. say hi by using the message box below</p>
     </div>
 
-    <ul>
+    <ul class="chat">
       <li *ngFor="let message of messages">
         <div *ngIf="message.senderId == userId">
           <span class="chat-img pull-left">
-            <img src="{{message.senderPhotoUr}}" class="img-circle">
+            <img src="{{message.senderPhotoUrl}}" class="img-circle">
           </span>
           <div class="chat-body">
             <div class="header">
@@ -25,7 +25,7 @@
 
         <div *ngIf="message.senderId != userId">
           <span class="chat-img pull-right">
-            <img src="{{message.senderPhotoUr}}" class="img-circle">
+            <img src="{{message.senderPhotoUrl}}" class="img-circle">
           </span>
           <div class="chat-body">
             <div class="header">
