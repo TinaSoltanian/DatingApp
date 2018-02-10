@@ -26,14 +26,17 @@ namespace DatingApp.Api.Controllers
         }
 
         [HttpGet("{id}", Name = "GetMessage")]
-        public async Task<IActionResult> GetMessage(int userId, int id){
-             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
-                    return Unauthorized();
-                }
+        public async Task<IActionResult> GetMessage(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
 
             var messageFromRepo = await _repo.GetMessage(id);
 
-            if (messageFromRepo == null){
+            if (messageFromRepo == null)
+            {
                 return NotFound();
             }
 
@@ -41,11 +44,13 @@ namespace DatingApp.Api.Controllers
         }
 
         [HttpGet("thread/{id}")]
-        public async Task<IActionResult> GetMessagesThread(int userId, int id){
-           if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
-                    return Unauthorized();
-                }    
-            
+        public async Task<IActionResult> GetMessagesThread(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
             var messagesFromRepo = await _repo.GetMessageThread(userId, id);
 
             var messageThread = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
@@ -55,49 +60,83 @@ namespace DatingApp.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetMessagesForUser(int userId, MessageParams messageParams){
+        public async Task<IActionResult> GetMessagesForUser(int userId, MessageParams messageParams)
+        {
 
-              if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
-                    return Unauthorized();
-                }
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
 
-            var messageFromRepo = await _repo.GetMessagesForUser(messageParams);   
+            var messageFromRepo = await _repo.GetMessagesForUser(messageParams);
 
             var messages = _mapper.Map<IEnumerable<MessageToReturnDto>>(messageFromRepo);
 
             Response.AddPagination(messageFromRepo.CurrentPage, messageFromRepo.PageSize,
             messageFromRepo.TotalCount, messageFromRepo.TotalPages);
-            
+
             return Ok(messages);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId,
-            [FromBody]MessageForCreationDto messageForCreationDto){
-                if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
-                    return Unauthorized();
-                }
+            [FromBody]MessageForCreationDto messageForCreationDto)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
 
-                messageForCreationDto.SenderId = userId;
+            messageForCreationDto.SenderId = userId;
 
-                var recipient = await _repo.GetUser(messageForCreationDto.RecipientId);
-                var sender = await _repo.GetUser(messageForCreationDto.SenderId);
+            var recipient = await _repo.GetUser(messageForCreationDto.RecipientId);
+            var sender = await _repo.GetUser(messageForCreationDto.SenderId);
 
-                if (recipient == null){
-                    return BadRequest("Could not find user");
-                }
+            if (recipient == null)
+            {
+                return BadRequest("Could not find user");
+            }
 
-                var message = _mapper.Map<Message>(messageForCreationDto);
+            var message = _mapper.Map<Message>(messageForCreationDto);
 
-                _repo.Add(message);
+            _repo.Add(message);
 
-                var messageForReturn = _mapper.Map<MessageToReturnDto>(message);
+            var messageForReturn = _mapper.Map<MessageToReturnDto>(message);
 
-                if (await _repo.SaveAll()){
-                    return CreatedAtRoute("GetMessage", new {id = message.Id}, messageForReturn );
-                }
+            if (await _repo.SaveAll())
+            {
+                return CreatedAtRoute("GetMessage", new { id = message.Id }, messageForReturn);
+            }
 
-                throw new Exception("Creating the message failed at save");
+            throw new Exception("Creating the message failed at save");
+        }
+
+        public async Task<IActionResult> DeleteMessage(int id, int userId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var messageFromRepo = await _repo.GetMessage(id);
+
+            if (messageFromRepo.SenderId == userId){
+                messageFromRepo.SenderDeleted = true;
+            }            
+
+            if (messageFromRepo.RecipientId == userId){
+                messageFromRepo.SenderDeleted = true;
+            }
+
+            if (messageFromRepo.SenderDeleted && messageFromRepo.RecipientDeleted){
+                _repo.Delete(messageFromRepo);
+            }
+
+            if(await _repo.SaveAll()){
+                return NoContent();
+            }
+
+            throw new Exception("Error deleting the message");
         }
     }
 }
