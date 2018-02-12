@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using DatingApp.Api.Helper;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DatingApp.Api
 {
@@ -34,7 +35,9 @@ namespace DatingApp.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var key = Encoding.ASCII.GetBytes( Configuration.GetSection("AppSettings:Token").Value);
-            services.AddDbContext<Datacontext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<Datacontext>(x => 
+                    x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
+                    .ConfigureWarnings(warning => warning.Ignore(CoreEventId.IncludeIgnoredWarning)));
             services.AddMvc().AddJsonOptions( opt => {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
