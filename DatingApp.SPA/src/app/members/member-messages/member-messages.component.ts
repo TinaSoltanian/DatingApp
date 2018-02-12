@@ -3,6 +3,7 @@ import { Message } from '../../_models/message';
 import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { AuthService } from '../../_services/Auth.service';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-member-messages',
@@ -23,7 +24,15 @@ newMessage: any = {};
   }
 
   loadMessages(){
+    const currentUserId = +this.authService.decodedToken.nameid;
     this.userService.getMessageThread(this.authService.decodedToken.nameid,  this.userId)
+    .do(messages => {
+      _.each(messages, (message: Message) => {
+        if (message.isRead === false && message.recipientId === currentUserId){
+          this.userService.markAsRead(currentUserId, message.id);
+        }
+      })
+    })
     .subscribe( message => {
       this.messages = message;  
     }, error => {
