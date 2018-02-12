@@ -92,6 +92,7 @@ export class UserService {
   }
 
   getMessages(id: number, page?: number, itemsPerPage?: number, messageContainer?: string ){
+    
     const paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<Message[]>();
 
     let queryString = '?MessageContainer=' + messageContainer + "&";
@@ -101,13 +102,12 @@ export class UserService {
     }
 
     return this.authHttp.get(this.baseUrl + 'users/' + id + '/messages' + queryString)
-    .map((response: Response) => {
+    .map((response: Response) => {      
       paginatedResult.result = response.json();
-
+      
       if(response.headers.get("Pagination") != null){
         paginatedResult.pagination = JSON.parse(response.headers.get("Pagination"));
-      }
-
+      }      
       return paginatedResult;
     }).catch(this.handleError);
   }
@@ -123,6 +123,11 @@ export class UserService {
     return this.authHttp.post(this.baseUrl + 'users/' + id + '/messages', message).map((response: Response) => {
       return response.json()
     }).catch(this.handleError);
+  }
+
+  deleteMessage(id: number, userId: number){
+    return this.authHttp.post( this.baseUrl + 'users/' + userId + '/messages/' + id, {})
+    .map(response  => {}).catch(this.handleError);
   }
 
   private handleError(error: any) {

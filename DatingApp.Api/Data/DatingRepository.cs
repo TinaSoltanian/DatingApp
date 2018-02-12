@@ -100,14 +100,14 @@ namespace DatingApp.Api.Data
             .AsQueryable();
 
             switch(messageParams.MessageContainer){
-                case "Inbox": messages.Where(u=> u.RecipientId == messageParams.UserId && 
+                case "Inbox": messages = messages.Where(u=> u.RecipientId == messageParams.UserId && 
                         u.RecipientDeleted == false);
                 break;
-                case "Outbox": messages.Where(u=> u.SenderId == messageParams.UserId
+                case "Outbox": messages = messages.Where(u=> u.SenderId == messageParams.UserId
                   && u.SenderDeleted == false);
                 break;
-                default: messages.Where(u=> u.RecipientId == messageParams.UserId &&
-                      u.SenderDeleted == false && u.IsRead == false);
+                default: messages = messages.Where(u=> u.RecipientId == messageParams.UserId &&
+                      u.RecipientDeleted == false && u.IsRead == false);
                 break;
             }
 

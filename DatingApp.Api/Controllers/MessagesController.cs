@@ -111,6 +111,7 @@ namespace DatingApp.Api.Controllers
             throw new Exception("Creating the message failed at save");
         }
 
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeleteMessage(int id, int userId)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
@@ -125,7 +126,7 @@ namespace DatingApp.Api.Controllers
             }            
 
             if (messageFromRepo.RecipientId == userId){
-                messageFromRepo.SenderDeleted = true;
+                messageFromRepo.RecipientDeleted = true;
             }
 
             if (messageFromRepo.SenderDeleted && messageFromRepo.RecipientDeleted){

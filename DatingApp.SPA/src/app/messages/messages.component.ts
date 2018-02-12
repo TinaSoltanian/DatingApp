@@ -5,6 +5,7 @@ import { UserService } from '../_services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../_services/Auth.service';
 import { Message } from '../_models/message';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-messages',
@@ -28,7 +29,7 @@ export class MessagesComponent implements OnInit {
     });
   }
 
-  loadMessages(){
+  loadMessages(){  
     return this.userService.getMessages(this.authService.decodedToken.nameid, this.pagination.currentPage,
         this.pagination.itemsPerPage, this.messageContainer)
         .subscribe((res: PaginatedResult<Message[]>) => {
@@ -37,6 +38,17 @@ export class MessagesComponent implements OnInit {
         }, error => {
           this.alertify.error(error);
         });
+  }
+
+  deleteMessage(id: number){
+    this.alertify.confirm('Are you sure you wan to delete the message', () => {
+      this.userService.deleteMessage(id, this.authService.decodedToken.nameid).subscribe(() => {
+        this.messages.splice(_.findIndex(this.messages, {id: id},1));
+        this.alertify.success("Message has been deleted");
+      }, error => {
+        this.alertify.error("Failed to delete the message");
+      });
+    });
   }
 
   pageChanged(event: any){
