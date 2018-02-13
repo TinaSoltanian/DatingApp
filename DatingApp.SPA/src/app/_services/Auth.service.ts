@@ -1,13 +1,15 @@
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
 import { Observable } from 'rxjs/Observable';
-import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { Users } from '../_models/Users';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserService } from './user.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthUser } from '../_models/authUser.ts';
+
 
 
 @Injectable()
@@ -16,11 +18,10 @@ export class AuthService {
   userToken: any;    
   decodedToken: any;
   currentUser : Users;
-  jwtHelper: JwtHelper = new JwtHelper();
   private photoUrl = new BehaviorSubject<string>('../../assets/user.png')
   currentPhotoUrl = this.photoUrl.asObservable();
 
-constructor(private http: Http) { }
+constructor(private http: HttpClient, private jwtHelperService: JwtHelperService) { }
 
 changeMemberPhoto(photoUrl : string){
     this.photoUrl.next(photoUrl);
@@ -28,13 +29,13 @@ changeMemberPhoto(photoUrl : string){
 
 login(model: Users){
 
-    return this.http.post(this.baseUrl + 'login', model, this.getOptions()).map((response: Response) => {
-        const user = response.json();
+    return this.http.post<AuthUser>(this.baseUrl + 'login', model, {headers: new HttpHeaders()
+        .set("Content-Type","Application/json")}).map(user => {
         if (user){
 
             localStorage.setItem("token", user.tokenString);
             localStorage.setItem("user", JSON.stringify(user.user));
-            this.decodedToken = this.jwtHelper.decodeToken(user.tokenString);
+            this.decodedToken = this.jwtHelperService.decodeToken(user.tokenString);
             this.userToken = user.tokenString;
             this.currentUser = user.user;
             if(this.currentUser.photoUrl != null){
@@ -47,19 +48,22 @@ login(model: Users){
     }).catch(this.handleError);
 }
 
-register(model: any){
-    return this.http.post(this.baseUrl + "register", model, this.getOptions()).catch(this.handleError);;
+register(user: Users){
+    return this.http.post(this.baseUrl + "register", user, {headers: new HttpHeaders()
+    .set("Content-Type","Application/json")})
+        .catch(this.handleError);;
 }
 
 loggedIn(){
-    return tokenNotExpired('token');
+    const token = this.jwtHelperService.tokenGetter();
+
+    if(!token){
+        return;
+    }
+
+    return !this.jwtHelperService.isTokenExpired(token);
 }
 
-getOptions(){
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
-    return options;
-}
 
 private handleError(error: any){
     const applicationError = error.headers.get("Application-Error");
