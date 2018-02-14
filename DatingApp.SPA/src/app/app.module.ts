@@ -18,7 +18,6 @@ import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
 import { UserService } from './_services/user.service';
 import { MemberCardComponent } from './members/member-card/member-card.component';
-import { AuthModule } from './auth/auth.module';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemeberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemeberListResolver } from './_resolvers/member-list.resolver';
@@ -61,8 +60,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
-    AuthModule,
+    RouterModule.forRoot(appRoutes),    
     TabsModule.forRoot(),
     NgxGalleryModule,
     FileUploadModule,
