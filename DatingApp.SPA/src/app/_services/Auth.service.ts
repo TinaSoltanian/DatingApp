@@ -9,10 +9,11 @@ import { UserService } from "./user.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthUser } from "../_models/authUser.ts";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
-  baseUrl = "http://localhost:5000/api/auth/";
+  baseUrl = environment.apiUrl;
   userToken: any;
   decodedToken: any;
   currentUser: Users;
@@ -30,7 +31,7 @@ export class AuthService {
 
   login(model: Users) {
     return this.http
-      .post<AuthUser>(this.baseUrl + "login", model, {
+      .post<AuthUser>(this.baseUrl + "auth/login", model, {
         headers: new HttpHeaders().set("Content-Type", "Application/json")
       })
       .map(user => {
@@ -53,7 +54,7 @@ export class AuthService {
 
   register(user: Users) {
     return this.http
-      .post(this.baseUrl + "register", user, {
+      .post(this.baseUrl + "auth/register", user, {
         headers: new HttpHeaders().set("Content-Type", "Application/json")
       })
   }

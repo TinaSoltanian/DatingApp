@@ -29,7 +29,6 @@ import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/bs-datepicker.config';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {TimeAgoPipe} from 'time-ago-pipe'
 import { PaginationModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap/buttons/buttons.module';
 import { ListsResolver } from './_resolvers/lists.resolver';
@@ -38,6 +37,17 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { TimeAgoPipe } from './_pipes/time-ago-pipe';
+import { AuthComponent } from './auth/auth.component';
+
+export function getAccessToken(): string{
+  return localStorage.getItem('token');
+}
+
+export const jwtConfig = {
+  tokenGetter: getAccessToken,
+  whitelistedDomains: ['localhost:5000']
+}
 
 @NgModule({
   declarations: [
@@ -54,6 +64,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
     MemberEditComponent,
     PhotoEditorComponent,
     MemberMessagesComponent,
+    AuthComponent,
     TimeAgoPipe
 ],
   imports: [
@@ -71,12 +82,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
     ButtonsModule.forRoot(),
     HttpClientModule,
     JwtModule.forRoot({
-      config: {
-        tokenGetter: () => {
-          return localStorage.getItem('token');
-        },
-        whitelistedDomains: ['localhost:5000']
-      }
+      config: jwtConfig
     })
   ],
   providers: [AuthService,
