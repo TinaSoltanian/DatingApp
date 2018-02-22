@@ -40,7 +40,7 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { TimeAgoPipe } from './_pipes/time-ago-pipe';
 import { AuthComponent } from './auth/auth.component';
 
-export function getAccessToken(): string{
+export function getAccessToken(): string{ 
   return localStorage.getItem('token');
 }
 
